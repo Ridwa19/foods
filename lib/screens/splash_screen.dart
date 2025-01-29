@@ -1,50 +1,47 @@
 import 'package:flutter/material.dart';
-import 'menu_screen.dart'; // Import the next screen
+import 'package:get/get.dart';
+import '../routes.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration(seconds: 3), () {
+      // Redirect to login or menu based on authentication status
+      bool isLoggedIn = false; // Replace with actual authentication logic
+      if (isLoggedIn) {
+        Get.offNamed(AppRoutes.menu); // Navigate to Menu
+      } else {
+        Get.offNamed(AppRoutes.login); // Navigate to Login
+      }
+    });
+
     return Scaffold(
-      backgroundColor: Colors.deepPurple,
+      backgroundColor: Colors.purple,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircleAvatar(
-              radius: 60,
-              backgroundImage: AssetImage('assets/chicken.png'), // Replace with your image
+            Image.asset(
+              'assets/chicken.png', // Place your logo in assets folder
+              width: 150,
+              height: 150,
             ),
             SizedBox(height: 20),
             Text(
               'SnapBite',
               style: TextStyle(
                 fontSize: 32,
-                color: Colors.white,
                 fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
+            SizedBox(height: 10),
             Text(
               'Enjoy Your Meal!',
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.white,
               ),
-            ),
-            SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => MenuScreen()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: Text('Get Started'),
             ),
           ],
         ),

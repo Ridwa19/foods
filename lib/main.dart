@@ -1,34 +1,19 @@
 import 'package:flutter/material.dart';
-import 'screens/splash_screen.dart';
-import 'screens/menu_screen.dart';
-import 'screens/item_detail_screen.dart';
-import 'screens/cart_screen.dart';
-import 'screens/login_screen.dart';
-import 'screens/signup_screen.dart';
-import 'screens/reset_password_screen.dart';
+import 'package:get/get.dart';
+import 'routes.dart';
 
 void main() {
-  runApp(SnapBiteApp());
+  runApp(MyApp());
 }
 
-class SnapBiteApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-      ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => SplashScreen(),
-        '/menu': (context) => MenuScreen(),
-        '/itemDetail': (context) => ItemDetailScreen(),
-        '/cart': (context) => CartScreen(),
-        '/login': (context) => LoginScreen(),
-        '/signup': (context) => SignupScreen(),
-        '/resetPassword': (context) => ResetPasswordScreen(),
-      },
+      title: 'SnapBite',
+      initialRoute: AppRoutes.splash,
+      getPages: AppRoutes.routes,
     );
   }
 }

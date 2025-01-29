@@ -4,67 +4,60 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFEACBCC),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.purple,
         elevation: 0,
         title: Text(
           'Menu',
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-            color: Colors.purple,
-          ),
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-        centerTitle: false,
         actions: [
           CircleAvatar(
-            backgroundImage: AssetImage('assets/profile_image.png'),
-            radius: 20,
+            backgroundImage: AssetImage('assets/profile_pic.png'), // Replace with user image
           ),
           SizedBox(width: 16),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'SnapBite - Feast The Essence',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-              SizedBox(height: 20),
               // Search Bar
               TextField(
                 decoration: InputDecoration(
+                  hintText: "Search your desired meal here...",
+                  prefixIcon: Icon(Icons.search),
                   filled: true,
-                  fillColor: Colors.white,
-                  prefixIcon: Icon(Icons.search, color: Colors.grey),
-                  hintText: 'Search your desired meal here...',
+                  fillColor: Colors.grey[200],
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
                   ),
                 ),
               ),
               SizedBox(height: 20),
+
               // Categories
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CategoryButton('All', isSelected: true),
-                  CategoryButton('Pizza'),
-                  CategoryButton('Burger'),
-                  CategoryButton('Dessert'),
-                  CategoryButton('Ice Cream'),
-                ],
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    CategoryItem(label: "All", isSelected: true),
+                    CategoryItem(label: "Pizza"),
+                    CategoryItem(label: "Burger"),
+                    CategoryItem(label: "Dessert"),
+                    CategoryItem(label: "Ice Cream"),
+                  ],
+                ),
               ),
               SizedBox(height: 20),
+
               // Promotions
               Text(
-                'Promotions',
+                "Promotions",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
@@ -72,115 +65,129 @@ class MenuScreen extends StatelessWidget {
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.purple,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset(
-                      'assets/fries.png',
-                      height: 100,
-                      fit: BoxFit.contain,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Today's Offer",
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          "Free Box of Fries!",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          "on all orders above \$150",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Today's Offer",
-                            style: TextStyle(
-                                color: Colors.yellow,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Free Box of Fries!\non all orders above \$150',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    )
+                    Image.asset(
+                      'assets/fries.png', // Replace with fries image
+                      height: 60,
+                      width: 60,
+                    ),
                   ],
                 ),
               ),
               SizedBox(height: 20),
+
               // Popular Items
               Text(
-                'Popular',
+                "Popular",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  MenuItem(
-                      name: 'Beef Burger',
-                      price: '\$20',
-                      image: 'assets/beef_burger.png'),
-                  MenuItem(
-                      name: 'Pizza-Tikka',
-                      price: '\$30',
-                      image: 'assets/pizza.png'),
-                ],
+              GridView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 0.75,
+                ),
+                itemCount: 2,
+                itemBuilder: (context, index) {
+                  return MenuItemCard(
+                    name: index == 0 ? "Beef Burger" : "Pizza-Tikka",
+                    price: index == 0 ? "\$20" : "\$30",
+                    image: index == 0
+                        ? 'assets/beef_burger.png'
+                        : 'assets/pizza.png', // Replace with item images
+                  );
+                },
               ),
               SizedBox(height: 20),
-              // Deals
+
+              // Make Your Own Deal
               Text(
-                'Make Your Own Deal',
+                "Make Your Own Deal",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
-              Image.asset(
-                'assets/deals_banner.png',
-                fit: BoxFit.cover,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    DealCard(),
+                    DealCard(),
+                    DealCard(),
+                  ],
+                ),
               ),
             ],
           ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.purple,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: '',
+            label: "Home",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: '',
+            label: "Search",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: '',
+            label: "Cart",
           ),
         ],
-        selectedItemColor: Colors.purple,
       ),
     );
   }
 }
 
-class CategoryButton extends StatelessWidget {
-  final String text;
+class CategoryItem extends StatelessWidget {
+  final String label;
   final bool isSelected;
 
-  CategoryButton(this.text, {this.isSelected = false});
+  const CategoryItem({required this.label, this.isSelected = false});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(right: 10),
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: isSelected ? Colors.purple : Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        color: isSelected ? Colors.purple : Colors.grey[200],
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Text(
-        text,
+        label,
         style: TextStyle(
           color: isSelected ? Colors.white : Colors.black,
           fontWeight: FontWeight.bold,
@@ -190,49 +197,70 @@ class CategoryButton extends StatelessWidget {
   }
 }
 
-class MenuItem extends StatelessWidget {
+class MenuItemCard extends StatelessWidget {
   final String name;
   final String price;
   final String image;
 
-  MenuItem({required this.name, required this.price, required this.image});
+  const MenuItemCard(
+      {required this.name, required this.price, required this.image});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 150,
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            blurRadius: 10,
-            offset: Offset(0, 5),
-          ),
-        ],
+    return GestureDetector(
+      onTap: () {
+        // Navigate to item details
+      },
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              image,
+              height: 80,
+              width: 80,
+            ),
+            SizedBox(height: 10),
+            Text(
+              name,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              price,
+              style: TextStyle(color: Colors.green),
+            ),
+            SizedBox(height: 5),
+            Icon(Icons.add_circle, color: Colors.purple),
+          ],
+        ),
       ),
-      child: Column(
-        children: [
-          Image.asset(
-            image,
-            height: 80,
-            fit: BoxFit.cover,
+    );
+  }
+}
+
+class DealCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(right: 10),
+      padding: EdgeInsets.all(16),
+      width: 120,
+      decoration: BoxDecoration(
+        color: Colors.purple,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Center(
+        child: Text(
+          "Deal",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
-          SizedBox(height: 10),
-          Text(
-            name,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 10),
-          Text(
-            price,
-            style: TextStyle(fontSize: 16, color: Colors.green),
-          ),
-          SizedBox(height: 10),
-          Icon(Icons.add_circle, color: Colors.purple),
-        ],
+        ),
       ),
     );
   }
