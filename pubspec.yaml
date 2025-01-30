@@ -59,6 +59,9 @@ flutter:
     - assets/pizza.png
     - assets/fries.png
     - assets/beef_burger.png
+    - assets/pizza_tikka.png
+    - assets/ice_cream.png
+    - assets/logo.png
 
 
     - assets/pizza.png
