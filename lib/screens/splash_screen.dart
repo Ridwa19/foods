@@ -4,7 +4,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.purple,
+      backgroundColor: Color(0xFF6829A7), // Background color matching the image
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -13,6 +13,31 @@ class SplashScreen extends StatelessWidget {
             Image.asset(
               'assets/logo.png', // Replace with your logo path
               height: 80,
+            ),
+            SizedBox(height: 20),
+            // App Name
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Snap',
+                    style: TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.yellow,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'Bite',
+                    style: TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
             ),
             SizedBox(height: 20),
             // Circular Image
@@ -30,51 +55,56 @@ class SplashScreen extends StatelessWidget {
               child: ClipOval(
                 child: Image.asset(
                   'assets/chicken.png', // Replace with your circular image
-                  height: 120,
-                  width: 120,
+                  height: 180,
+                  width: 180,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            SizedBox(height: 20),
-            // App Name
-            Text(
-              'SnapBite',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: Colors.yellow,
-              ),
-            ),
-            SizedBox(height: 10),
+            SizedBox(height: 30),
             // Tagline
-            Text(
-              'Enjoy Your Meal!',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Enjoy ',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.yellow,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'Your Meal!',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 40),
             // Get Started Button
             ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/login'); // Navigates to the Login Screen
+                Navigator.pushReplacementNamed(context, '/login'); // Navigate to the Login Screen
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white, // ✅ Fixed
+                backgroundColor: Colors.white, // Button background color
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(25),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
               ),
               child: Text(
                 'Get Started',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.purple,
+                  color: Color(0xFF6829A7), // Match button text color
                 ),
               ),
             ),

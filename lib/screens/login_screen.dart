@@ -9,7 +9,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.purple,
+      backgroundColor: Color(0xFF6829A7), // Background gradient-like purple
       body: Center(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(20),
@@ -18,20 +18,46 @@ class LoginScreen extends StatelessWidget {
             children: [
               // App Logo
               Image.asset(
-                'assets/chicken.png', // Use your app logo
-                width: 120,
-                height: 120,
+                'assets/logo.png', // Replace with your app logo
+                width: 100,
+                height: 100,
               ),
               SizedBox(height: 20),
+              // App Name
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Snap',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.yellow,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'Bite',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 30),
+              // Login Title
               Text(
-                'SnapBite',
+                'Login',
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               // Email Field
               TextField(
                 controller: emailController,
@@ -40,11 +66,11 @@ class LoginScreen extends StatelessWidget {
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               // Password Field
               TextField(
                 controller: passwordController,
@@ -54,11 +80,11 @@ class LoginScreen extends StatelessWidget {
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 25),
               // Login Button
               ElevatedButton(
                 onPressed: () {
@@ -79,35 +105,31 @@ class LoginScreen extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                  padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
                 child: Text(
                   'Login',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-              SizedBox(height: 10),
-              // Forgot Password
-              TextButton(
-                onPressed: () {
-                  Get.toNamed(AppRoutes.resetPassword); // Navigate to Reset Password
-                },
-                child: Text(
-                  'Forgot Password?',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               // Signup Redirect
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Don't have an account? ",
-                    style: TextStyle(color: Colors.white),
+                    'Not a member? ',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
                   ),
                   TextButton(
                     onPressed: () {
@@ -115,7 +137,59 @@ class LoginScreen extends StatelessWidget {
                     },
                     child: Text(
                       'Register here',
-                      style: TextStyle(color: Colors.orange),
+                      style: TextStyle(
+                        color: Colors.yellow,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 15),
+              // Social Login Buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      // Handle Facebook Login
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    ),
+                    icon: Icon(
+                      Icons.facebook,
+                      color: Colors.blue,
+                    ),
+                    label: Text(
+                      'Login with Facebook',
+                      style: TextStyle(color: Colors.purple),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      // Handle Google Login
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    ),
+                    icon: Icon(
+                      Icons.g_mobiledata,
+                      color: Colors.red,
+                    ),
+                    label: Text(
+                      'Login with Google',
+                      style: TextStyle(color: Colors.purple),
                     ),
                   ),
                 ],

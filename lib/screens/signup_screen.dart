@@ -6,13 +6,14 @@ class SignupScreen extends StatelessWidget {
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController confirmEmailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.purple,
+      backgroundColor: Color(0xFF6829A7), // Background gradient-like purple
       body: Center(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(20),
@@ -21,20 +22,46 @@ class SignupScreen extends StatelessWidget {
             children: [
               // App Logo
               Image.asset(
-                'assets/chicken.png', // Use your app logo
-                width: 120,
-                height: 120,
+                'assets/logo.png', // Replace with your app logo
+                width: 100,
+                height: 100,
               ),
               SizedBox(height: 20),
+              // App Name
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Snap',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.yellow,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'Bite',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 30),
+              // Signup Title
               Text(
-                'SnapBite',
+                'Signup',
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               // First Name Field
               TextField(
                 controller: firstNameController,
@@ -43,11 +70,11 @@ class SignupScreen extends StatelessWidget {
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               // Last Name Field
               TextField(
                 controller: lastNameController,
@@ -56,24 +83,37 @@ class SignupScreen extends StatelessWidget {
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               // Email Field
               TextField(
                 controller: emailController,
                 decoration: InputDecoration(
-                  hintText: 'Email',
+                  hintText: 'Enter Email',
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
+              // Confirm Email Field
+              TextField(
+                controller: confirmEmailController,
+                decoration: InputDecoration(
+                  hintText: 'Confirm Email',
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ),
+              SizedBox(height: 15),
               // Password Field
               TextField(
                 controller: passwordController,
@@ -83,11 +123,11 @@ class SignupScreen extends StatelessWidget {
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               // Confirm Password Field
               TextField(
                 controller: confirmPasswordController,
@@ -97,11 +137,11 @@ class SignupScreen extends StatelessWidget {
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 25),
               // Signup Button
               ElevatedButton(
                 onPressed: () {
@@ -109,17 +149,26 @@ class SignupScreen extends StatelessWidget {
                   String firstName = firstNameController.text;
                   String lastName = lastNameController.text;
                   String email = emailController.text;
+                  String confirmEmail = confirmEmailController.text;
                   String password = passwordController.text;
                   String confirmPassword = confirmPasswordController.text;
 
                   if (firstName.isEmpty ||
                       lastName.isEmpty ||
                       email.isEmpty ||
+                      confirmEmail.isEmpty ||
                       password.isEmpty ||
                       confirmPassword.isEmpty) {
                     Get.snackbar(
                       'Signup Failed',
                       'All fields are required',
+                      backgroundColor: Colors.red,
+                      colorText: Colors.white,
+                    );
+                  } else if (email != confirmEmail) {
+                    Get.snackbar(
+                      'Signup Failed',
+                      'Emails do not match',
                       backgroundColor: Colors.red,
                       colorText: Colors.white,
                     );
@@ -137,24 +186,31 @@ class SignupScreen extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                  padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
                 child: Text(
                   'Signup',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               // Redirect to Login
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Already a member? ',
-                    style: TextStyle(color: Colors.white),
+                    'Already Member? ',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
                   ),
                   TextButton(
                     onPressed: () {
@@ -162,7 +218,11 @@ class SignupScreen extends StatelessWidget {
                     },
                     child: Text(
                       'Login here',
-                      style: TextStyle(color: Colors.orange),
+                      style: TextStyle(
+                        color: Colors.yellow,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ],
