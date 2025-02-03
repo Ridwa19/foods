@@ -24,72 +24,78 @@ class _MenuScreenState extends State<MenuScreen> {
         .toList();
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFFFF7F3), // Adjusted background color
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(140),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30),
-            ),
-            boxShadow: [
-              BoxShadow(color: Colors.grey.shade300, blurRadius: 10, offset: Offset(0, 5)),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Menu',
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.purple,
-                        ),
-                      ),
-                      Text(
-                        'SnapBite - Feast The Essence',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundImage: AssetImage('assets/profile_image.png'),
-                  ),
-                ],
+        preferredSize: Size.fromHeight(150), // Adjust height
+        child: SafeArea(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
               ),
-              SizedBox(height: 15),
-              TextField(
-                onChanged: (value) {
-                  setState(() {
-                    searchQuery = value;
-                  });
-                },
-                decoration: InputDecoration(
-                  hintText: 'Search your desired meal here...',
-                  prefixIcon: Icon(Icons.search, color: Colors.purple),
-                  filled: true,
-                  fillColor: Color(0xFFF8E1F4),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide.none,
+              boxShadow: [
+                BoxShadow(color: Colors.grey.shade300, blurRadius: 10, offset: Offset(0, 5)),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Title Row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Menu',
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.purple,
+                          ),
+                        ),
+                        Text(
+                          'SnapBite - Feast The Essence',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundImage: AssetImage('assets/profile_image.png'),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+
+                // Search Bar
+                TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      searchQuery = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Search your desired meal here...',
+                    prefixIcon: Icon(Icons.search, color: Colors.purple),
+                    filled: true,
+                    fillColor: Color(0xFFF8E1F4),
+                    contentPadding: EdgeInsets.symmetric(vertical: 10),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide.none,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -99,22 +105,22 @@ class _MenuScreenState extends State<MenuScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Categories
+              // Categories Section
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    buildCategory('All'),
-                    buildCategory('Pizza'),
-                    buildCategory('Burger'),
-                    buildCategory('Dessert'),
-                    buildCategory('Ice Cream'),
+                    buildCategory('All', Icons.fastfood),
+                    buildCategory('Pizza', Icons.local_pizza),
+                    buildCategory('Burger', Icons.lunch_dining),
+                    buildCategory('Dessert', Icons.cake),
+                    buildCategory('Ice Cream', Icons.icecream),
                   ],
                 ),
               ),
               SizedBox(height: 20),
 
-              // Promotions
+              // Promotions Section
               Text(
                 'Promotions',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.purple),
@@ -155,7 +161,7 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
               SizedBox(height: 20),
 
-              // Popular Items
+              // Popular Items Section
               Text(
                 'Popular',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.purple),
@@ -175,8 +181,9 @@ class _MenuScreenState extends State<MenuScreen> {
                   return buildMenuItem(filteredItems[index]);
                 },
               ),
-
               SizedBox(height: 20),
+
+              // Deals Section
               Text(
                 'Make Your Own Deal',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.purple),
@@ -186,9 +193,9 @@ class _MenuScreenState extends State<MenuScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    buildDealCard('Deal 1'),
-                    buildDealCard('Deal 2'),
-                    buildDealCard('Deal 3'),
+                    buildDealCard('King Size Burger + Fries + Coke', '\$75'),
+                    buildDealCard('King Size Chicken + Fries + Coke', '\$99'),
+                    buildDealCard('King Size Meal + Ice Cream', '\$99'),
                   ],
                 ),
               ),
@@ -208,7 +215,7 @@ class _MenuScreenState extends State<MenuScreen> {
     );
   }
 
-  Widget buildCategory(String category) {
+  Widget buildCategory(String category, IconData icon) {
     bool isSelected = selectedCategory == category;
     return GestureDetector(
       onTap: () {
@@ -223,9 +230,17 @@ class _MenuScreenState extends State<MenuScreen> {
           color: isSelected ? Colors.purple : Colors.grey[200],
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Text(
-          category,
-          style: TextStyle(color: isSelected ? Colors.white : Colors.black, fontWeight: FontWeight.bold),
+        child: Row(
+          children: [
+            Icon(icon, color: isSelected ? Colors.white : Colors.black),
+            SizedBox(width: 5),
+            Text(
+              category,
+              style: TextStyle(
+                  color: isSelected ? Colors.white : Colors.black,
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
         ),
       ),
     );
@@ -249,16 +264,28 @@ class _MenuScreenState extends State<MenuScreen> {
     );
   }
 
-  Widget buildDealCard(String dealName) {
+  Widget buildDealCard(String title, String price) {
     return Container(
       margin: EdgeInsets.only(right: 10),
-      width: 120,
+      padding: EdgeInsets.all(8),
+      width: 180,
       decoration: BoxDecoration(
         color: Colors.purple,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Center(
-        child: Text(dealName, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+          ),
+          SizedBox(height: 10),
+          Text(
+            price,
+            style: TextStyle(color: Colors.yellowAccent, fontSize: 16),
+          ),
+        ],
       ),
     );
   }
