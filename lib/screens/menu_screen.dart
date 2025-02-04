@@ -149,7 +149,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       ],
                     ),
                     Spacer(),
-                    Image.asset('assets/fries.png', height: 80, width: 80),
+                    Image.asset('assets/fries-8 1@2x.png', height: 80, width: 80),
                   ],
                 ),
               ),
