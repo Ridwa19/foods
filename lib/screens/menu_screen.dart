@@ -10,10 +10,11 @@ class _MenuScreenState extends State<MenuScreen> {
   String selectedCategory = 'All';
 
   final List<Map<String, String>> menuItems = [
-    {"name": "Beef Burger", "price": "20", "image": "assets/beef_burger.png", "category": "Burger"},
-    {"name": "Pizza-Tikka", "price": "30", "image": "assets/pizza_tikka.png", "category": "Pizza"},
-    {"name": "Ice Cream", "price": "15", "image": "assets/ice_cream.png", "category": "Dessert"},
+    {"name": "Beef Burger", "price": "20", "image": "assets/fast-food-burger-5 2.png", "category": "Burger"},
+    {"name": "Pizza-Tikka", "price": "30", "image": "assets/pizza.png", "category": "Pizza"},
   ];
+
+  int selectedBottomIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -24,124 +25,116 @@ class _MenuScreenState extends State<MenuScreen> {
         .toList();
 
     return Scaffold(
-      backgroundColor: Color(0xFFFFF7F3), // Adjusted background color
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(150), // Adjust height
-        child: SafeArea(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-              ),
-              boxShadow: [
-                BoxShadow(color: Colors.grey.shade300, blurRadius: 10, offset: Offset(0, 5)),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Title Row
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Menu',
-                          style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.purple,
-                          ),
-                        ),
-                        Text(
-                          'SnapBite - Feast The Essence',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                    CircleAvatar(
-                      radius: 25,
-                      backgroundImage: AssetImage('assets/profile_image.png'),
-                    ),
-                  ],
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header Section
+            Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
                 ),
-                SizedBox(height: 10),
-
-                // Search Bar
-                TextField(
-                  onChanged: (value) {
-                    setState(() {
-                      searchQuery = value;
-                    });
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Search your desired meal here...',
-                    prefixIcon: Icon(Icons.search, color: Colors.purple),
-                    filled: true,
-                    fillColor: Color(0xFFF8E1F4),
-                    contentPadding: EdgeInsets.symmetric(vertical: 10),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide.none,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    blurRadius: 10,
+                    offset: Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Title and Profile
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Menu',
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepPurple,
+                        ),
+                      ),
+                      CircleAvatar(
+                        radius: 25,
+                        backgroundImage: AssetImage('assets/profile_image.png'),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    'SnapBite - Feast The Essence',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(height: 16),
+
+                  // Search Bar
+                  TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        searchQuery = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Search your desired meal here...',
+                      prefixIcon: Icon(Icons.search, color: Colors.purple),
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Categories Section
-              SingleChildScrollView(
+            SizedBox(height: 20),
+
+            // Categories Section
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    buildCategory('All', Icons.fastfood),
-                    buildCategory('Pizza', Icons.local_pizza),
-                    buildCategory('Burger', Icons.lunch_dining),
-                    buildCategory('Dessert', Icons.cake),
-                    buildCategory('Ice Cream', Icons.icecream),
+                    buildCategory('All', 'assets/grill-chicken-spicy 1.png', isSelected: true),
+                    buildCategory('Pizza', 'assets/pizza-slice.png'),
+                    buildCategory('Burger', 'assets/fast-food-burger-5 2.png'),
+                    buildCategory('Dessert', 'assets/meringue 1.png'),
+                    buildCategory('Ice Cream', 'assets/ice-cream-68 1@2x.png'),
                   ],
                 ),
               ),
-              SizedBox(height: 20),
+            ),
+            SizedBox(height: 20),
 
-              // Promotions Section
-              Text(
-                'Promotions',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.purple),
-              ),
-              SizedBox(height: 10),
-              Container(
+            // Promotions Section
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Container(
+                padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.purple,
+                  color: Colors.deepPurple,
                   borderRadius: BorderRadius.circular(15),
                 ),
-                padding: EdgeInsets.all(16),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Today's Offer",
-                          style: TextStyle(
-                              color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 5),
                         Text(
@@ -155,19 +148,26 @@ class _MenuScreenState extends State<MenuScreen> {
                         ),
                       ],
                     ),
-                    Image.asset('assets/fries.png', height: 80, width: 80, fit: BoxFit.contain),
+                    Spacer(),
+                    Image.asset('assets/fries.png', height: 80, width: 80),
                   ],
                 ),
               ),
-              SizedBox(height: 20),
+            ),
+            SizedBox(height: 20),
 
-              // Popular Items Section
-              Text(
+            // Popular Items Section
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
                 'Popular',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.purple),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.deepPurple),
               ),
-              SizedBox(height: 10),
-              GridView.builder(
+            ),
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: GridView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -181,67 +181,77 @@ class _MenuScreenState extends State<MenuScreen> {
                   return buildMenuItem(filteredItems[index]);
                 },
               ),
-              SizedBox(height: 20),
+            ),
+            SizedBox(height: 20),
 
-              // Deals Section
-              Text(
+            // Make Your Own Deal Section
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
                 'Make Your Own Deal',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.purple),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.deepPurple),
               ),
-              SizedBox(height: 10),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    buildDealCard('King Size Burger + Fries + Coke', '\$75'),
-                    buildDealCard('King Size Chicken + Fries + Coke', '\$99'),
-                    buildDealCard('King Size Meal + Ice Cream', '\$99'),
-                  ],
-                ),
+            ),
+            SizedBox(height: 10),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  buildDealCard('King Size Burger + Fries + Coke', '\$75'),
+                  buildDealCard('King Size Chicken + Fries + Coke', '\$99'),
+                  buildDealCard('King Size Meal + Ice Cream', '\$99'),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.purple,
+        currentIndex: selectedBottomIndex,
+        onTap: (index) {
+          setState(() {
+            selectedBottomIndex = index;
+          });
+        },
+        selectedItemColor: Colors.deepPurple,
         unselectedItemColor: Colors.grey,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
           BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ],
       ),
     );
   }
 
-  Widget buildCategory(String category, IconData icon) {
-    bool isSelected = selectedCategory == category;
+  Widget buildCategory(String category, String imagePath, {bool isSelected = false}) {
     return GestureDetector(
       onTap: () {
         setState(() {
           selectedCategory = category;
         });
       },
-      child: Container(
-        margin: EdgeInsets.only(right: 10),
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected ? Colors.purple : Colors.grey[200],
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, color: isSelected ? Colors.white : Colors.black),
-            SizedBox(width: 5),
-            Text(
-              category,
-              style: TextStyle(
-                  color: isSelected ? Colors.white : Colors.black,
-                  fontWeight: FontWeight.bold),
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(right: 10),
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: isSelected ? Colors.purple[100] : Colors.grey[200],
+              borderRadius: BorderRadius.circular(10),
             ),
-          ],
-        ),
+            child: Image.asset(imagePath, height: 50, width: 50),
+          ),
+          Text(
+            category,
+            style: TextStyle(
+              color: isSelected ? Colors.deepPurple : Colors.grey,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -258,7 +268,7 @@ class _MenuScreenState extends State<MenuScreen> {
           Text(item['name']!, style: TextStyle(fontWeight: FontWeight.bold)),
           Text('\$${item['price']}', style: TextStyle(color: Colors.green)),
           SizedBox(height: 5),
-          Icon(Icons.add_circle, color: Colors.purple),
+          Icon(Icons.add_circle, color: Colors.deepPurple),
         ],
       ),
     );
@@ -270,7 +280,7 @@ class _MenuScreenState extends State<MenuScreen> {
       padding: EdgeInsets.all(8),
       width: 180,
       decoration: BoxDecoration(
-        color: Colors.purple,
+        color: Colors.deepPurple,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
