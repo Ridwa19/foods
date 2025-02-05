@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../widgets/bottom_nav_bar.dart';
 
 class MenuScreen extends StatefulWidget {
   @override
@@ -8,13 +10,12 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   String searchQuery = '';
   String selectedCategory = 'All';
+  final FocusNode _searchFocusNode = FocusNode(); // Add FocusNode for the search bar
 
   final List<Map<String, String>> menuItems = [
     {"name": "Beef Burger", "price": "20", "image": "assets/fast-food-burger-5 2.png", "category": "Burger"},
     {"name": "Pizza-Tikka", "price": "30", "image": "assets/pizza.png", "category": "Pizza"},
   ];
-
-  int selectedBottomIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +80,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
                   // Search Bar
                   TextField(
+                    focusNode: _searchFocusNode, // Attach the FocusNode to the search bar
                     onChanged: (value) {
                       setState(() {
                         searchQuery = value;
@@ -118,44 +120,6 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
             SizedBox(height: 20),
 
-            // Promotions Section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.deepPurple,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Today's Offer",
-                          style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          'Free Box of Fries!',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          'on all orders above \$150',
-                          style: TextStyle(color: Colors.yellowAccent, fontSize: 14),
-                        ),
-                      ],
-                    ),
-                    Spacer(),
-                    Image.asset('assets/fries-8 1@2x.png', height: 80, width: 80),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-
             // Popular Items Section
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -182,46 +146,15 @@ class _MenuScreenState extends State<MenuScreen> {
                 },
               ),
             ),
-            SizedBox(height: 20),
-
-            // Make Your Own Deal Section
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                'Make Your Own Deal',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.deepPurple),
-              ),
-            ),
-            SizedBox(height: 10),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  buildDealCard('King Size Burger + Fries + Coke', '\$75'),
-                  buildDealCard('King Size Chicken + Fries + Coke', '\$99'),
-                  buildDealCard('King Size Meal + Ice Cream', '\$99'),
-                ],
-              ),
-            ),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedBottomIndex,
-        onTap: (index) {
-          setState(() {
-            selectedBottomIndex = index;
-          });
+      bottomNavigationBar: BottomNavBar(
+        currentIndex: 0,
+        onSearchPressed: () {
+          // Focus the search bar when search icon is tapped
+          _searchFocusNode.requestFocus();
         },
-        selectedItemColor: Colors.deepPurple,
-        unselectedItemColor: Colors.grey,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-        ],
       ),
     );
   }
@@ -268,32 +201,15 @@ class _MenuScreenState extends State<MenuScreen> {
           Text(item['name']!, style: TextStyle(fontWeight: FontWeight.bold)),
           Text('\$${item['price']}', style: TextStyle(color: Colors.green)),
           SizedBox(height: 5),
-          Icon(Icons.add_circle, color: Colors.deepPurple),
-        ],
-      ),
-    );
-  }
-
-  Widget buildDealCard(String title, String price) {
-    return Container(
-      margin: EdgeInsets.only(right: 10),
-      padding: EdgeInsets.all(8),
-      width: 180,
-      decoration: BoxDecoration(
-        color: Colors.deepPurple,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-          ),
-          SizedBox(height: 10),
-          Text(
-            price,
-            style: TextStyle(color: Colors.yellowAccent, fontSize: 16),
+          GestureDetector(
+            onTap: () {
+              // Navigate to ItemDetailScreen
+              Get.toNamed(
+                '/item-details',
+                arguments: item, // Pass the item details to the next screen
+              );
+            },
+            child: Icon(Icons.add_circle, color: Colors.deepPurple, size: 30),
           ),
         ],
       ),

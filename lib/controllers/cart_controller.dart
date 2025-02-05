@@ -1,16 +1,18 @@
 import 'package:get/get.dart';
 
 class CartController extends GetxController {
-  var cartItems = [].obs;
+  final cartItems = <Map<String, dynamic>>[].obs;
 
-  double get totalPrice =>
-      cartItems.fold(0, (sum, item) => sum + (item['price'] * item['quantity']));
-
-  void addItem(Map<String, dynamic> item) {
-    cartItems.add(item);
+  double calculateTotal() {
+    return cartItems.fold(0, (sum, item) => sum + (item['price'] * item['quantity']));
   }
 
-  void removeItem(int index) {
-    cartItems.removeAt(index);
+  void addItem(Map<String, dynamic> item) {
+    final index = cartItems.indexWhere((cartItem) => cartItem['name'] == item['name']);
+    if (index != -1) {
+      cartItems[index]['quantity']++;
+    } else {
+      cartItems.add({...item, 'quantity': 1});
+    }
   }
 }

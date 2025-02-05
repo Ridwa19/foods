@@ -39,7 +39,9 @@ class AppRoutes {
     ),
     GetPage(
       name: itemDetails,
-      page: () => ItemDetailScreen(),
+      page: () => ItemDetailScreen(
+        item: Get.arguments, // Pass the item dynamically using Get.arguments
+      ),
     ),
     GetPage(
       name: cart,
