@@ -6,6 +6,103 @@ import '../widgets/bottom_nav_bar.dart';
 class CartScreen extends StatelessWidget {
   final CartController cartController = Get.find<CartController>();
 
+  // Function to display a custom success dialog
+  void _showOrderSuccessDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.deepPurple, Colors.purpleAccent],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.check_circle,
+                  size: 60,
+                  color: Colors.white,
+                ),
+                SizedBox(height: 20),
+                Text(
+                  "Order Confirmed",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  "Thank you! Your order has been placed successfully.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white70,
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context); // Close dialog
+                    Get.toNamed('/menu'); // Navigate back to menu
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                  ),
+                  child: Text(
+                    "OK",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.deepPurple,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _submitOrder(BuildContext context) async {
+    if (cartController.cartItems.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Your cart is empty!')),
+      );
+      return;
+    }
+
+    // Show a loading Snackbar
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Submitting your order...')),
+    );
+
+    await Future.delayed(Duration(seconds: 2)); // Simulate network delay
+
+    // Clear the cart after submitting
+    cartController.clearCart();
+
+    // Show success dialog
+    _showOrderSuccessDialog(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,8 +140,7 @@ class CartScreen extends StatelessWidget {
                 itemCount: cartController.cartItems.length,
                 itemBuilder: (context, index) {
                   final item = cartController.cartItems[index];
-                  return item != null && item['name'] != null && item['price'] != null
-                      ? Padding(
+                  return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                     child: Container(
                       decoration: BoxDecoration(
@@ -105,6 +201,7 @@ class CartScreen extends StatelessWidget {
                                     onPressed: () {
                                       if (item['quantity'] > 1) {
                                         item['quantity']--;
+                                        cartController.cartItems.refresh();
                                       } else {
                                         cartController.cartItems.removeAt(index);
                                       }
@@ -115,6 +212,7 @@ class CartScreen extends StatelessWidget {
                                   IconButton(
                                     onPressed: () {
                                       item['quantity']++;
+                                      cartController.cartItems.refresh();
                                     },
                                     icon: Icon(Icons.add_circle_outline, color: Colors.deepPurple),
                                   ),
@@ -125,8 +223,7 @@ class CartScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                  )
-                      : SizedBox.shrink();
+                  );
                 },
               ),
             ),
@@ -170,9 +267,7 @@ class CartScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: ElevatedButton(
-                onPressed: () {
-                  // Implement checkout logic
-                },
+                onPressed: () => _submitOrder(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.deepPurple,
                   shape: RoundedRectangleBorder(
