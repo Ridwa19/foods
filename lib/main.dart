@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'routes.dart';
 import 'controllers/cart_controller.dart';
+import 'package:food/controllers/auth_controller.dart'; // ✅ Import the AuthController
+
 
 
 void main() {
   runApp(MyApp());
   Get.put(CartController()); // Register CartController
+  Get.put(AuthController()); // Inject controller globally
 
 }
 
