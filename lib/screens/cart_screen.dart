@@ -67,7 +67,7 @@ class CartScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               image: DecorationImage(
-                                image: AssetImage(item['image'] ?? 'assets/default_image.png'),
+                                image: AssetImage(item['image'] ?? 'assets/pizza.png'),
                                 fit: BoxFit.cover,
                               ),
                             ),
