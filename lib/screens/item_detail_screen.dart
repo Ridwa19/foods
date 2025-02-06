@@ -6,6 +6,13 @@ import '../controllers/cart_controller.dart';
 class ItemDetailScreen extends StatelessWidget {
   final Map<String, String> item;
 
+  // Reactive variables for add-ons' quantities
+  final RxMap<String, int> addOnQuantities = {
+    'Cheese': 0,
+    'Sauce': 0,
+    'Ketchup': 0,
+  }.obs;
+
   ItemDetailScreen({required this.item});
 
   @override
@@ -106,7 +113,7 @@ class ItemDetailScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
 
-                  // Add-Ons Section (Centered)
+                  // Add-Ons Section
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -128,13 +135,21 @@ class ItemDetailScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
 
-                  // Add to Cart Button (Centered)
+                  // Add to Cart Button
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
+                        // Prepare add-ons to include in the cart
+                        Map<String, int> selectedAddOns = {};
+                        addOnQuantities.forEach((key, value) {
+                          if (value > 0) selectedAddOns[key] = value;
+                        });
+
+                        // Add item with add-ons to the cart
                         cartController.addItem({
                           'name': item['name'],
                           'price': double.parse(item['price']!),
+                          'addOns': selectedAddOns,
                         });
                         Get.toNamed('/cart');
                       },
@@ -161,37 +176,50 @@ class ItemDetailScreen extends StatelessWidget {
     );
   }
 
-  // Build Add-On Item Widget
+  // Build Add-On Item Widget with Counter
   Widget buildAddOn(String imagePath, String name, int price) {
-    return Container(
-      margin: EdgeInsets.only(right: 16),
-      width: 100,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(color: Colors.grey.withOpacity(0.3), blurRadius: 5, offset: Offset(0, 3)),
-        ],
-      ),
-      child: Column(
-        children: [
-          Image.asset(imagePath, height: 50, fit: BoxFit.contain),
-          SizedBox(height: 5),
-          Text(name, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-          SizedBox(height: 5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.add_circle, color: Colors.deepPurple, size: 20),
-              SizedBox(width: 5),
-              Text(
-                '\$$price',
-                style: TextStyle(fontSize: 14, color: Colors.orange, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+    return Obx(() {
+      return Container(
+        margin: EdgeInsets.only(right: 16),
+        width: 120,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(color: Colors.grey.withOpacity(0.3), blurRadius: 5, offset: Offset(0, 3)),
+          ],
+        ),
+        child: Column(
+          children: [
+            Image.asset(imagePath, height: 50, fit: BoxFit.contain),
+            SizedBox(height: 5),
+            Text(name, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+            SizedBox(height: 5),
+            Text('\$$price', style: TextStyle(fontSize: 14, color: Colors.orange)),
+            SizedBox(height: 5),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    if (addOnQuantities[name]! > 0) {
+                      addOnQuantities[name] = addOnQuantities[name]! - 1;
+                    }
+                  },
+                  icon: Icon(Icons.remove_circle, color: Colors.deepPurple),
+                ),
+                Text('${addOnQuantities[name]}', style: TextStyle(fontSize: 16)),
+                IconButton(
+                  onPressed: () {
+                    addOnQuantities[name] = addOnQuantities[name]! + 1;
+                  },
+                  icon: Icon(Icons.add_circle, color: Colors.deepPurple),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

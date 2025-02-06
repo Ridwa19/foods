@@ -95,7 +95,7 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
               CircleAvatar(
                 radius: 25,
-                backgroundImage: AssetImage('assets/Mask group.png'),
+                backgroundImage: AssetImage('assets/profile_image.png'),
               ),
             ],
           ),
